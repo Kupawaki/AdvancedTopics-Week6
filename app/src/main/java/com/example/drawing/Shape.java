@@ -4,9 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+
+import java.util.Random;
 
 public class Shape extends View
 {
@@ -14,6 +15,8 @@ public class Shape extends View
     public int top;
     public int right;
     public int bottom;
+    public int color;
+    public int shape;
 
     Paint paint = new Paint();
 
@@ -29,12 +32,46 @@ public class Shape extends View
     @Override
     public void onDraw(Canvas canvas)
     {
-        paint.setColor(Color.BLACK);
-        Rect rect = new Rect(left, top, right, bottom);
+
+        Random rand = new Random();
+        color = rand.nextInt(5-1);
+        Log.d("PAINT", "Num = " + color);
+        switch (color)
+        {
+            case 0:
+                paint.setColor(Color.GREEN);
+                break;
+            case 1:
+                paint.setColor(Color.RED);
+                break;
+            case 2:
+                paint.setColor(Color.BLUE);
+                break;
+            default:
+                paint.setColor(Color.BLACK);
+                break;
+        }
 
         try
         {
-            canvas.drawRect(rect, paint);
+            Random rand2 = new Random();
+            shape = rand2.nextInt(5-1);
+            Log.d("PAINT", "shape = " + color);
+            switch (color)
+            {
+                case 0:
+                    canvas.drawRect(left,top,right,bottom,paint);
+                    break;
+                case 1:
+                    canvas.drawCircle(left,top,right,paint);
+                    break;
+                case 2:
+                    canvas.drawArc(left,top,right,bottom,90,45,true,paint);
+                    break;
+                default:
+                    canvas.drawRoundRect(left,top,right,bottom,20,20,paint);
+                    break;
+            }
         }
         catch(Exception e)
         {
