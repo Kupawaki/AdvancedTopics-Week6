@@ -1,6 +1,7 @@
 package com.example.drawing;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -8,6 +9,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -15,33 +18,23 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
-        setContentView(new MyView(this));
+        setContentView(R.layout.activity_main);
+
+        EditText leftTF = findViewById(R.id.leftTF);
+        EditText topTF = findViewById(R.id.topTF);
+        EditText rightTF = findViewById(R.id.rightTF);
+        EditText bottomTF = findViewById(R.id.bottomTF);
+        Button drawBTN = findViewById(R.id.drawBTN);
+
+        drawBTN.setOnClickListener(view ->
+        {
+            ConstraintLayout cl = findViewById(R.id.mainCL);
+            cl.addView(new Shape(MainActivity.this,
+                    Integer.parseInt(String.valueOf(leftTF.getText())),
+                    Integer.parseInt(String.valueOf(topTF.getText())),
+                    Integer.parseInt(String.valueOf(rightTF.getText())),
+                    Integer.parseInt(String.valueOf(bottomTF.getText()))));
+        });
     }
 
-    public class MyView extends View
-    {
-        public MyView(Context context)
-        {
-            super(context);
-        }
-
-        @Override
-        public void onDraw(Canvas canvas)
-        {
-            super.onDraw(canvas);
-
-            int x = getWidth()/2;
-            int y = getHeight()/2;
-            int radius = 100;
-
-            Paint paint = new Paint();
-
-            paint.setStyle(Paint.Style.FILL);
-            paint.setColor(Color.parseColor("#ff0000"));
-
-            //canvas.drawPaint(paint);
-            canvas.drawCircle(x, y, radius, paint);
-        }
-    }
 }
